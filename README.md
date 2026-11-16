@@ -36,7 +36,13 @@ décommente les lignes prévues dans `index.js` et mets ton numéro.
 - `.owner` — carte de contact du propriétaire
 - `.mzouti` — présentation du bot
 - `.repo` — liens officiels (site, chaîne, groupe)
-- `.alwaysonline on` / `.alwaysonline off` — présence permanente (owner uniquement)
+- `.alwaysonline on` / `off` — présence permanente (owner uniquement)
+- `.mode public` / `private` / `privad` — qui peut utiliser le bot (owner uniquement)
+- `.antilink on` / `off` — supprime les liens dans ce groupe (admins)
+- `.welcome on` / `off` — message de bienvenue dans ce groupe (admins)
+- `.antiviewonce on` / `off` — récupère les messages à vue unique (owner uniquement)
+- `.anticall on` / `off` — rejette les appels automatiquement (owner uniquement)
+- `.pair +50900000000` — génère un code de pairage pour un autre numéro
 
 ## Ajouter une commande
 

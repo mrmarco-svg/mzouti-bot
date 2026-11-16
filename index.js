@@ -9,28 +9,36 @@ const settings = require('./config/settings')
 const { loadPlugins } = require('./lib/loader')
 const { handleMessage } = require('./lib/handler')
 const autoJoin = require('./lib/autojoin')
+const { startServer, state } = require('./lib/server')
+const { rejectIncomingCalls } = require('./plugins/anticall')
+const { greet } = require('./plugins/welcome')
 
 const commands = loadPlugins()
+let currentSock = null
 
 async function startBot() {
-  const { state, saveCreds } = await useMultiFileAuthState('database/sessions')
+  const { state: authState, saveCreds } = await useMultiFileAuthState('database/sessions')
   const { version } = await fetchLatestBaileysVersion()
 
   const sock = makeWASocket({
     version,
     logger: pino({ level: 'silent' }),
     printQRInTerminal: true, // utilisé uniquement si tu ne passes pas par le pairing code
-    auth: state,
+    auth: authState,
     markOnlineOnConnect: settings.alwaysOnline
   })
 
   sock.ev.on('creds.update', saveCreds)
 
   sock.ev.on('connection.update', async (update) => {
-    const { connection, lastDisconnect } = update
+    const { connection, lastDisconnect, qr } = update
+
+    if (qr) state.lastQR = qr
 
     if (connection === 'open') {
       console.log(`✓ ${settings.botName} connecté !`)
+      state.connected = true
+      state.lastQR = null
       await autoJoin(sock)
 
       // Présence permanente, rafraîchie régulièrement
@@ -43,6 +51,7 @@ async function startBot() {
     }
 
     if (connection === 'close') {
+      state.connected = false
       const code = lastDisconnect?.error?.output?.statusCode
       const shouldReconnect = code !== DisconnectReason.loggedOut
       console.log('Connexion fermée. Reconnexion :', shouldReconnect)
@@ -56,13 +65,23 @@ async function startBot() {
     await handleMessage(sock, msg, commands)
   })
 
+  sock.ev.on('call', async (calls) => {
+    await rejectIncomingCalls(sock, calls)
+  })
+
+  sock.ev.on('group-participants.update', async ({ id, participants, action }) => {
+    if (action === 'add') await greet(sock, id, participants)
+  })
+
   // Exemple pour activer le pairing code au lieu du QR :
   // if (!sock.authState.creds.registered) {
   //   const code = await sock.requestPairingCode('50900000000')
   //   console.log('Code de pairage :', code)
   // }
 
+  currentSock = sock
   return sock
 }
 
+startServer(() => currentSock)
 startBot()
