@@ -32,6 +32,7 @@ async function checkLink({ sock, from, sender, text, msg }) {
   if (!group.antilink) return false
   if (!LINK_REGEX.test(text)) return false
 
+  if (isOwner(sender)) return false // le propriétaire du bot n'est jamais concerné
   const admin = await isGroupAdmin(sock, from, sender)
   if (admin) return false // les admins ne sont pas concernés
 
