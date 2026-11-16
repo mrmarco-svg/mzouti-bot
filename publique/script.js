@@ -1,4 +1,5 @@
 const statusEl = document.getElementById('status')
+const statusTextEl = statusEl.querySelector('.status-text')
 const qrBox = document.getElementById('qrBox')
 const phoneInput = document.getElementById('phone')
 const getCodeBtn = document.getElementById('getCode')
@@ -22,25 +23,27 @@ async function refreshStatus() {
     const data = await res.json()
 
     if (data.error) {
-      statusEl.textContent = `● erreur : ${data.error}`
+      statusTextEl.textContent = `erreur : ${data.error}`
+      statusEl.classList.remove('connected')
       return
     }
 
     if (data.connected) {
-      statusEl.textContent = `● connecté (session : ${data.session})`
+      statusTextEl.textContent = `connecté (session : ${data.session})`
       statusEl.classList.add('connected')
       qrBox.innerHTML = '<p class="qr-placeholder">Déjà connecté ✓</p>'
       return
     }
 
-    statusEl.textContent = `● en attente de connexion (session : ${data.session})`
+    statusTextEl.textContent = `en attente de connexion (session : ${data.session})`
     statusEl.classList.remove('connected')
 
     if (data.qr) {
       qrBox.innerHTML = `<img src="${data.qr}" alt="QR code de connexion">`
     }
   } catch (e) {
-    statusEl.textContent = '● serveur injoignable'
+    statusTextEl.textContent = 'serveur injoignable'
+    statusEl.classList.remove('connected')
   }
 }
 
