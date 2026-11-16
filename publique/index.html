@@ -24,7 +24,19 @@
   <main class="connect">
     <div class="connect-intro">
       <h1>Connecte ton numéro au bot</h1>
-      <p>Scanne le code ou utilise le code de pairage. Ta session reste privée : seul ton numéro y a accès.</p>
+      <p>Choisis un nom de session, puis scanne le QR ou récupère un code de pairage. Ta session reste privée : seul ton numéro y a accès.</p>
+    </div>
+
+    <ol class="steps">
+      <li class="step"><span class="step-num">1</span><span class="step-label">Nomme ta session</span></li>
+      <li class="step"><span class="step-num">2</span><span class="step-label">Scanne ou entre ton numéro</span></li>
+      <li class="step"><span class="step-num">3</span><span class="step-label">C'est connecté</span></li>
+    </ol>
+
+    <div class="session-field">
+      <label for="sessionName">Nom de ta session</label>
+      <input id="sessionName" type="text" placeholder="ex : marco, boutique1...">
+      <p class="hint">Un identifiant unique si tu connectes plusieurs numéros sur ce bot. Mémorisé sur cet appareil, pas besoin de le retaper.</p>
     </div>
 
     <div class="connect-card">
@@ -33,7 +45,12 @@
         <div id="qrBox" class="qr-box">
           <p class="qr-placeholder">En attente de génération…</p>
         </div>
-        <p class="hint">Ouvre WhatsApp → Appareils liés → Lier un appareil</p>
+        <ol class="instructions">
+          <li>Ouvre WhatsApp sur ton téléphone</li>
+          <li>Va dans <strong>Appareils liés</strong></li>
+          <li>Appuie sur <strong>Lier un appareil</strong></li>
+          <li>Scanne le code ci-dessus</li>
+        </ol>
       </section>
 
       <div class="divider"><span>ou</span></div>
@@ -49,11 +66,40 @@
           <span class="pair-label">Code à entrer dans WhatsApp</span>
           <span id="pairCode" class="pair-code">— — — —</span>
         </div>
-        <p class="hint">WhatsApp → Appareils liés → Lier avec un numéro</p>
+        <ol class="instructions">
+          <li>Entre ton numéro avec l'indicatif du pays</li>
+          <li>Appuie sur <strong>Obtenir le code</strong></li>
+          <li>WhatsApp → <strong>Appareils liés</strong> → <strong>Lier avec un numéro</strong></li>
+          <li>Entre le code affiché ci-dessus</li>
+        </ol>
       </section>
     </div>
 
-    <p id="status" class="status">● en attente de connexion</p>
+    <p id="status" class="status"><span class="status-dot"></span><span class="status-text">en attente de connexion</span></p>
+
+    <section class="faq">
+      <h2>Questions fréquentes</h2>
+
+      <details class="faq-item">
+        <summary>Le QR code ne s'affiche pas</summary>
+        <p>Attends quelques secondes après avoir choisi ton nom de session — le temps que la connexion WhatsApp s'initialise. Si rien n'apparaît après 30 secondes, recharge la page.</p>
+      </details>
+
+      <details class="faq-item">
+        <summary>Le bot ne répond pas après la connexion</summary>
+        <p>Vérifie que ton message commence bien par le préfixe <code>.</code> (par exemple <code>.ping</code>). Si tu viens de scanner, laisse 10 à 15 secondes au bot pour terminer sa synchronisation.</p>
+      </details>
+
+      <details class="faq-item">
+        <summary>Je veux connecter un deuxième numéro</summary>
+        <p>Change simplement le <strong>nom de session</strong> ci-dessus pour un nouveau nom, puis scanne ou pair ton autre numéro. Les deux resteront connectés en même temps, sans se gêner.</p>
+      </details>
+
+      <details class="faq-item">
+        <summary>Le code de pairage ne fonctionne pas</summary>
+        <p>Vérifie que le numéro est complet avec l'indicatif du pays (ex : <code>+509...</code>), sans espaces. Le code expire après environ une minute : redemande-en un nouveau s'il a expiré.</p>
+      </details>
+    </section>
   </main>
 
   <footer class="footer">
