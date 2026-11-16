@@ -4,20 +4,36 @@ const phoneInput = document.getElementById('phone')
 const getCodeBtn = document.getElementById('getCode')
 const pairResult = document.getElementById('pairResult')
 const pairCodeEl = document.getElementById('pairCode')
+const sessionInput = document.getElementById('sessionName')
+
+// Mémorise le nom de session sur cet appareil pour éviter de le retaper
+sessionInput.value = localStorage.getItem('mzouti_session') || 'default'
+sessionInput.addEventListener('change', () => {
+  localStorage.setItem('mzouti_session', sessionInput.value.trim() || 'default')
+})
+
+function currentSession() {
+  return (sessionInput.value || 'default').trim() || 'default'
+}
 
 async function refreshStatus() {
   try {
-    const res = await fetch('/api/status')
+    const res = await fetch(`/api/status?session=${encodeURIComponent(currentSession())}`)
     const data = await res.json()
 
+    if (data.error) {
+      statusEl.textContent = `● erreur : ${data.error}`
+      return
+    }
+
     if (data.connected) {
-      statusEl.textContent = '● connecté'
+      statusEl.textContent = `● connecté (session : ${data.session})`
       statusEl.classList.add('connected')
       qrBox.innerHTML = '<p class="qr-placeholder">Déjà connecté ✓</p>'
       return
     }
 
-    statusEl.textContent = '● en attente de connexion'
+    statusEl.textContent = `● en attente de connexion (session : ${data.session})`
     statusEl.classList.remove('connected')
 
     if (data.qr) {
@@ -42,7 +58,7 @@ getCodeBtn.addEventListener('click', async () => {
     const res = await fetch('/api/pair', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ phone })
+      body: JSON.stringify({ phone, session: currentSession() })
     })
     const data = await res.json()
 
