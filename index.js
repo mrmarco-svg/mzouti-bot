@@ -5,6 +5,19 @@ const {
   fetchLatestBaileysVersion
 } = require('@whiskeysockets/baileys')
 const pino = require('pino')
+const fs = require('fs')
+const qrcodeTerminal = require('qrcode-terminal')
+
+// Sécurité : si "database/sessions" existe mais n'est pas un dossier
+// (par ex. créé par erreur comme un fichier sur GitHub), on corrige
+// automatiquement au lieu de planter le déploiement.
+function ensureSessionsFolder(folder) {
+  if (fs.existsSync(folder) && !fs.statSync(folder).isDirectory()) {
+    console.log(`⚠️  "${folder}" n'est pas un dossier, suppression et recréation...`)
+    fs.unlinkSync(folder)
+  }
+  fs.mkdirSync(folder, { recursive: true })
+}
 const settings = require('./config/settings')
 const { loadPlugins } = require('./lib/loader')
 const { handleMessage } = require('./lib/handler')
@@ -17,15 +30,16 @@ const commands = loadPlugins()
 let currentSock = null
 
 async function startBot() {
+  ensureSessionsFolder('database/sessions')
   const { state: authState, saveCreds } = await useMultiFileAuthState('database/sessions')
   const { version } = await fetchLatestBaileysVersion()
 
   const sock = makeWASocket({
     version,
     logger: pino({ level: 'silent' }),
-    printQRInTerminal: true, // utilisé uniquement si tu ne passes pas par le pairing code
     auth: authState,
-    markOnlineOnConnect: settings.alwaysOnline
+    markOnlineOnConnect: settings.alwaysOnline,
+    browser: [settings.botName, 'Chrome', '1.0.0'] // nom affiché dans "Appareils connectés"
   })
 
   sock.ev.on('creds.update', saveCreds)
@@ -33,7 +47,10 @@ async function startBot() {
   sock.ev.on('connection.update', async (update) => {
     const { connection, lastDisconnect, qr } = update
 
-    if (qr) state.lastQR = qr
+    if (qr) {
+      state.lastQR = qr
+      qrcodeTerminal.generate(qr, { small: true })
+    }
 
     if (connection === 'open') {
       console.log(`✓ ${settings.botName} connecté !`)
