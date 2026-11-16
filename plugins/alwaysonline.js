@@ -1,11 +1,11 @@
 const settings = require('../config/settings')
+const { isOwner } = require('../lib/auth')
 
 module.exports = {
   command: 'alwaysonline',
   description: 'Active ou désactive la présence permanente (en ligne)',
   handler: async ({ sock, from, args, sender }) => {
-    const isOwner = sender.startsWith(settings.ownerNumber)
-    if (!isOwner) {
+    if (!isOwner(sender)) {
       return sock.sendMessage(from, { text: '⛔ Commande réservée au propriétaire.' })
     }
 
