@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MZouti✄Bot — Connexion</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark">✄</span>
+      <span class="brand-name">MZouti Bot</span>
+    </div>
+    <nav class="topnav">
+      <a href="card.html">Commandes</a>
+      <a href="https://mzouti.onrender.com">MZOUTI</a>
+    </nav>
+  </header>
+
+  <main class="connect">
+    <div class="connect-intro">
+      <h1>Connecte ton numéro au bot</h1>
+      <p>Scanne le code ou utilise le code de pairage. Ta session reste privée : seul ton numéro y a accès.</p>
+    </div>
+
+    <div class="connect-card">
+      <section class="pane pane-qr">
+        <h2>Code QR</h2>
+        <div id="qrBox" class="qr-box">
+          <p class="qr-placeholder">En attente de génération…</p>
+        </div>
+        <p class="hint">Ouvre WhatsApp → Appareils liés → Lier un appareil</p>
+      </section>
+
+      <div class="divider"><span>ou</span></div>
+
+      <section class="pane pane-pair">
+        <h2>Code de pairage</h2>
+        <label for="phone">Ton numéro WhatsApp</label>
+        <div class="phone-row">
+          <input id="phone" type="tel" placeholder="+509 00 00 00 00" inputmode="tel">
+          <button id="getCode">Obtenir le code</button>
+        </div>
+        <div id="pairResult" class="pair-result" hidden>
+          <span class="pair-label">Code à entrer dans WhatsApp</span>
+          <span id="pairCode" class="pair-code">— — — —</span>
+        </div>
+        <p class="hint">WhatsApp → Appareils liés → Lier avec un numéro</p>
+      </section>
+    </div>
+
+    <p id="status" class="status">● en attente de connexion</p>
+  </main>
+
+  <footer class="footer">
+    <a href="https://whatsapp.com/channel/0029Vb9JiTZ8qIzvgKbVGB36">Chaîne officielle</a>
+    <a href="https://chat.whatsapp.com/DVGIgkU4SQpKL3rYttjXfs?s=cl&p=a&iam=2">Groupe officiel</a>
+  </footer>
+
+<script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MZouti✄Bot — Commandes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+  .commands { max-width: 760px; margin: 0 auto; width: 100%; padding: 56px 24px 40px; flex: 1; }
+  .commands h1 { font-size: 28px; margin: 0 0 8px; }
+  .commands > p { color: var(--text-dim); margin: 0 0 32px; }
+  .group { margin-bottom: 28px; }
+  .group h2 { font-size: 15px; color: var(--text-dim); font-weight: 500; margin: 0 0 12px; }
+  .cmd-list { display: grid; gap: 10px; }
+  .cmd {
+    background: var(--panel);
+    border: 1px solid var(--panel-line);
+    border-radius: 8px;
+    padding: 14px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+  }
+  .cmd code {
+    font-family: 'IBM Plex Mono', monospace;
+    color: var(--red);
+    font-size: 14px;
+    white-space: nowrap;
+  }
+  .cmd span { color: var(--text-dim); font-size: 13px; text-align: right; }
+</style>
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark">✄</span>
+      <span class="brand-name">MZouti Bot</span>
+    </div>
+    <nav class="topnav">
+      <a href="index.html">Connexion</a>
+      <a href="https://mzouti.onrender.com">MZOUTI</a>
+    </nav>
+  </header>
+
+  <main class="commands">
+    <h1>Commandes du bot</h1>
+    <p>Préfixe par défaut : <code style="color:var(--red); font-family:'IBM Plex Mono',monospace;">.</code></p>
+
+    <div class="group">
+      <h2>Général</h2>
+      <div class="cmd-list">
+        <div class="cmd"><code>.menu</code><span>Affiche le menu complet</span></div>
+        <div class="cmd"><code>.ping</code><span>Vérifie la vitesse du bot</span></div>
+        <div class="cmd"><code>.owner</code><span>Contact du propriétaire</span></div>
+        <div class="cmd"><code>.mzouti</code><span>Présente le bot</span></div>
+        <div class="cmd"><code>.repo</code><span>Liens officiels</span></div>
+      </div>
+    </div>
+
+    <div class="group">
+      <h2>Propriétaire</h2>
+      <div class="cmd-list">
+        <div class="cmd"><code>.alwaysonline on / off</code><span>Présence permanente</span></div>
+        <div class="cmd"><code>.mode public|private|privad</code><span>Qui peut utiliser le bot</span></div>
+        <div class="cmd"><code>.antiviewonce on / off</code><span>Récupère les messages à vue unique</span></div>
+        <div class="cmd"><code>.anticall on / off</code><span>Rejette les appels entrants</span></div>
+        <div class="cmd"><code>.pair +509...</code><span>Code de pairage pour un numéro</span></div>
+      </div>
+    </div>
+
+    <div class="group">
+      <h2>Admins de groupe</h2>
+      <div class="cmd-list">
+        <div class="cmd"><code>.antilink on / off</code><span>Supprime les liens dans ce groupe</span></div>
+        <div class="cmd"><code>.welcome on / off</code><span>Message de bienvenue dans ce groupe</span></div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <a href="https://whatsapp.com/channel/0029Vb9JiTZ8qIzvgKbVGB36">Chaîne officielle</a>
+    <a href="https://chat.whatsapp.com/DVGIgkU4SQpKL3rYttjXfs?s=cl&p=a&iam=2">Groupe officiel</a>
+  </footer>
+
+</body>
+</html>
